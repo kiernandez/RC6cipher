@@ -52,7 +52,6 @@ def RC6_encrypt(plaintext, S):
         C = (rotate_left(C ^ u, t % 32, 32) + S[2 * i + 1]) % 2**32
         A, B, C, D = B, C, D, A  # Permutacja bloków
 
-        # Wyświetlanie stanu po każdej rundzie (całość jako jedna linia)
         print(f"Runda {i}: A={A:08X}, B={B:08X}, C={C:08X}, D={D:08X}")
 
     # Końcowe dodanie kluczy rundowych
@@ -68,18 +67,15 @@ def RC6_encrypt(plaintext, S):
     )
     return ciphertext
 
-# Przykład działania
 key = bytes.fromhex('4000000000000000000000000000000000000000000000000000000000000000')
-plaintext = bytes.fromhex('00000000000000000000000000000000')  # 128-bitowy plaintext do szyfrowania
+plaintext = bytes.fromhex('00000000000000000000000000000000')  # 128-bitowy plaintext
 
 key_array = key_schedule(key)
 outCiphertext = RC6_encrypt(plaintext, key_array)
 
-# Wyświetlanie szyfrogramu w kolejności little-endian
 print("Szyfrogram (little-endian):")
 print(outCiphertext.hex().upper())
 
-# Jeśli potrzebujesz szyfrogramu w kolejności big-endian
 ciphertext_big_endian = outCiphertext[::-1]
 print("Szyfrogram (big-endian):")
 print(ciphertext_big_endian.hex().upper())
